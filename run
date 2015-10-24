@@ -1,0 +1,4 @@
+#!/bin/sh
+
+gst-package src/package.xml 1> /dev/null
+gst --no-gc-message src/run.st

@@ -1,0 +1,7 @@
+<package>
+  <name>Minishell</name>
+  <namespace>Minishell</namespace>
+
+  <filein>Boolean.st</filein>
+  <filein>Minishell.st</filein>
+</package>
