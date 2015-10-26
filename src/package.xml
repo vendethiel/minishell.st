@@ -2,6 +2,5 @@
   <name>Minishell</name>
   <namespace>Minishell</namespace>
 
-  <filein>Boolean.st</filein>
-  <filein>Minishell.st</filein>
+  <filein>LineReader.st</filein>
 </package>

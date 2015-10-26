@@ -1,3 +1,3 @@
 PackageLoader fileInPackage: #Minishell.
 
-(Minishell.Minishell input: stdin) start.
+(Minishell.LineReader input: stdin) start.
