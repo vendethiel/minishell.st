@@ -16,7 +16,11 @@ Object subclass: LineReader [
   input: anInput [ input := anInput ]
 
   start [
-    [ self runCommand: input nextLine ] repeat.
+    [ |line|
+      line := input nextLine.
+      (line = nil) ifTrue: [ ^nil ].
+      self runCommand: line
+    ] repeat.
   ]
 
   runCommand: aCommand [
