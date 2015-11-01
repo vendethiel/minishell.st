@@ -1,19 +1,17 @@
-Object subclass: Shell [
-  ls [
-    'hey' displayLn.
-  ]
-]
-
 Object subclass: LineReader [
-  | input |
+  | input dispatcher |
 
-  LineReader class >> input: anInput [
-    ^self new input: anInput; 
-          yourself
+  LineReader class >> input: input dispatcher: dispatcher [
+    ^self new input: input; 
+              dispatcher: dispatcher;
+              yourself
   ]
 
   input [ ^input ]
   input: anInput [ input := anInput ]
+
+  dispatcher [ ^dispatcher ]
+  dispatcher: aDispatcher [ dispatcher := aDispatcher ]
 
   start [
     [ |line|
@@ -24,7 +22,19 @@ Object subclass: LineReader [
   ]
 
   runCommand: aCommand [
+    | commandParts commandName |
+
     "TODO use our own 'substrings' that does shell-like splitting"
-    (aCommand substrings: ' ') displayNl.
+    commandParts := aCommand substrings: ' '.
+    commandName := ((commandParts at: 1), ':') asSymbol.
+    (self dispatcher respondsTo: commandName)
+      ifTrue: [
+        self dispatcher
+          perform: commandName
+          with: (commandParts copyFrom: 2 "skip the command name")
+      ]
+      ifFalse: [
+        'command not recognized' displayNl
+      ]
   ]
 ]

@@ -3,4 +3,5 @@
   <namespace>Minishell</namespace>
 
   <filein>LineReader.st</filein>
+  <filein>Shell.st</filein>
 </package>
