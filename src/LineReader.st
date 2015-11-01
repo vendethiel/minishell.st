@@ -18,12 +18,13 @@ Object subclass: LineReader [
   start [
     [ |line|
       line := input nextLine.
-      (line = nil) ifTrue: [ ^nil ].
+      line isNil ifTrue: [ ^nil ].
       self runCommand: line
     ] repeat.
   ]
 
   runCommand: aCommand [
+    "TODO use our own 'substrings' that does shell-like splitting"
     (aCommand substrings: ' ') displayNl.
   ]
 ]
