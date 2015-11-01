@@ -1,13 +1,32 @@
 Object subclass: Shell [
   ls: args [ CommandLs new run: args ]
+  pwd: args [ CommandPwd new run: args ]
+  cd: args [ CommandCd new run: args ]
 ]
 
 Object subclass: Command [
 ]
 
+Command subclass: CommandCd [
+  run: args [
+    "TODO: 'assertSize'0..1??"
+    "TODO `cd -`... But maybe `command` instances need to be stored/registered so they can store instance variables. how many commands need that anyway?"
+    Directory working: (args at: 1)
+  ]
+]
+
+Command subclass: CommandPwd [
+  run: args [
+    "TODO: assertSize'0'?"
+    "TODO check dir exists"
+    Directory working displayNl
+  ]
+]
+
 "TODO move to another directory"
 Command subclass: CommandLs [
   run: args [
+    "TODO I'd really like better a switch-like thing (like satyr's original `match` proposed for prelude-ls)"
     (args isEmpty
       ifTrue: [ self listDirectory: Directory working ]
       ifFalse: [
