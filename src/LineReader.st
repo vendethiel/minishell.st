@@ -15,6 +15,7 @@ Object subclass: LineReader [
 
   start [
     [ |line|
+      '> ' display. "prompt. XXX do we want this configurable??"
       line := input nextLine.
       line isNil ifTrue: [ ^nil ].
       self runCommand: line
@@ -26,7 +27,7 @@ Object subclass: LineReader [
 
     "TODO use our own 'substrings' that does shell-like splitting"
     commandParts := aCommand subStrings: ' '.
-    commandName := ('command', (commandParts at: 1), ':') asSymbol.
+    commandName := ((commandParts at: 1), ':') asSymbol.
     (self dispatcher respondsTo: commandName)
       ifTrue: [
         self dispatcher
