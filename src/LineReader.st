@@ -25,8 +25,8 @@ Object subclass: LineReader [
     | commandParts commandName |
 
     "TODO use our own 'substrings' that does shell-like splitting"
-    commandParts := aCommand substrings: ' '.
-    commandName := ((commandParts at: 1), ':') asSymbol.
+    commandParts := aCommand subStrings: ' '.
+    commandName := ('command', (commandParts at: 1), ':') asSymbol.
     (self dispatcher respondsTo: commandName)
       ifTrue: [
         self dispatcher
