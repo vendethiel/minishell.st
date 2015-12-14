@@ -26,13 +26,16 @@ Object subclass: LineReader [
     | commandParts commandName |
 
     "TODO use our own 'substrings' that does shell-like splitting"
+    "TODO (reader)redirections"
+    "TODO (reader)replace $XXX"
     commandParts := aCommand subStrings: ' '.
     commandName := ((commandParts at: 1), ':') asSymbol.
     (self dispatcher respondsTo: commandName)
       ifTrue: [
-        self dispatcher
+        ^[self dispatcher
           perform: commandName
           with: (commandParts copyFrom: 2 "skip the command name")
+        ] on: CommandError do: [ :sig | 'Error' displayNl ]
       ]
       ifFalse: [
         'command not recognized' displayNl
