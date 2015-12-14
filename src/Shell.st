@@ -52,10 +52,8 @@ Command subclass: CommandPwd [
   ]
 ]
 
-"TODO move to another directory"
 Command subclass: CommandLs [
   run: args [
-    "TODO I'd really like better a switch-like thing (like satyr's original `match` proposal for prelude-ls)"
     (args isEmpty
       ifTrue: [ self listDirectory: Directory working withName: false ]
       ifFalse: [
@@ -68,13 +66,16 @@ Command subclass: CommandLs [
   ]
 
   listDirectory: dir withName: withName [
-    "TODO: check if directory exists"
     | entry |
 
-    withName ifTrue: [ dir name displayNl ].
-    dir namesDo: [ :f |
-      (f startsWith: '.') ifFalse: [ f displayNl ]
-    ].
+    dir exists
+      ifTrue: [
+        withName ifTrue: [ dir name displayNl ].
+        dir namesDo: [ :f |
+          (f startsWith: '.') ifFalse: [ f displayNl ]
+        ]
+      ]
+      ifFalse: [ self error: 'ls: ', dir name, ' does not exist' ]
   ]
 
   listDirectories: dirs [
