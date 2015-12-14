@@ -35,7 +35,9 @@ Object subclass: LineReader [
         ^[self dispatcher
           perform: commandName
           with: (commandParts copyFrom: 2 "skip the command name")
-        ] on: CommandError do: [ :sig | 'Error' displayNl ]
+        ] on: CommandError do: [ :sig |
+          ('Error: ', sig messageText) displayNl
+        ]
       ]
       ifFalse: [
         'command not recognized' displayNl

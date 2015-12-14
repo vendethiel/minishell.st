@@ -12,6 +12,10 @@ Error subclass: CommandError [
 ]
 
 Object subclass: Command [
+  error: msg [
+    CommandError new messageText: msg; signal
+  ]
+
   assertArgs: args min: min [
     (args size < min) ifTrue: [self error: 'Too few arguments']
   ]
@@ -23,6 +27,11 @@ Object subclass: Command [
   assertArgs: args min: min max: max [
     self assertArgs: args min: min.
     self assertArgs: args max: max.
+  ]
+
+  assertArgs: args size: size [
+    self assertArgs: args min: size.
+    self assertArgs: args max: size.
   ]
 ]
 
@@ -38,7 +47,7 @@ Command subclass: CommandCd [
 
 Command subclass: CommandPwd [
   run: args [
-    "TODO: assertSize'0'?"
+    self assertArgs: args size: 0.
     Directory working displayNl
   ]
 ]
