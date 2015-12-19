@@ -29,9 +29,7 @@ Object subclass: LineReader [
   runCommand: aCommand [
     | commandParts commandName |
 
-    "TODO use our own 'substrings' that does shell-like splitting"
-    "TODO (reader)redirections"
-    "TODO (reader)replace $XXX"
+    "TODO use our own 'substrings' that does shell-like splitting, redirections, and variables"
     commandParts := aCommand subStrings: ' '.
     commandName := ((commandParts at: 1), ':') asSymbol.
     (self dispatcher respondsTo: commandName)
