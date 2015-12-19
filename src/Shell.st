@@ -17,11 +17,11 @@ Object subclass: Command [
   ]
 
   assertArgs: args min: min [
-    (args size < min) ifTrue: [self error: 'Too few arguments']
+    (args size < min) ifTrue: [ self error: 'Too few arguments' ]
   ]
 
   assertArgs: args max: max [
-    (args size > max) ifTrue: [self error: 'Too many arguments']
+    (args size > max) ifTrue: [ self error: 'Too many arguments' ]
   ]
 
   assertArgs: args min: min max: max [
@@ -41,7 +41,11 @@ Command subclass: CommandCd [
     "TODO `cd -`... But maybe `command` instances need to be stored/registered so they can store instance variables. how many commands need that anyway?"
     (args size = 0)
       ifTrue: [ "todo cd no args" ]
-      ifFalse: [ Directory working: (args at: 1) ]
+      ifFalse: [
+        (File path: (args at: 1)) exists
+          ifFalse: [ self error: 'cd: ', (args at: 1), ': No such file or directory' ].
+        Directory working: (args at: 1)
+      ]
   ]
 ]
 
