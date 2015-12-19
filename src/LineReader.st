@@ -1,21 +1,25 @@
 Object subclass: LineReader [
-  | input dispatcher |
+  | input dispatcher prompt |
 
   LineReader class >> input: input dispatcher: dispatcher [
     ^self new input: input; 
               dispatcher: dispatcher;
+              prompt: '> ';
               yourself
   ]
 
   input [ ^input ]
   input: anInput [ input := anInput ]
 
+  prompt [ ^prompt ]
+  prompt: aPrompt [ prompt := aPrompt ]
+
   dispatcher [ ^dispatcher ]
   dispatcher: aDispatcher [ dispatcher := aDispatcher ]
 
   start [
     [ |line|
-      '> ' display. "prompt. XXX do we want this configurable??"
+      prompt display.
       line := input nextLine.
       line isNil ifTrue: [ ^nil ].
       self runCommand: line
