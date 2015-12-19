@@ -2,7 +2,7 @@ Object subclass: Shell [
   ls: args [ CommandLs new run: args ]
   pwd: args [ CommandPwd new run: args ]
   cd: args [ CommandCd new run: args ]
-  "TODO: exit"
+  exit: args [ CommandExit new run: args ]
   "TODO: echo"
   "TODO: cat"
   "TODO: {{un,}set}env"
@@ -46,6 +46,13 @@ Command subclass: CommandCd [
           ifFalse: [ self error: 'cd: ', (args at: 1), ': No such file or directory' ].
         Directory working: (args at: 1)
       ]
+  ]
+]
+
+Command subclass: CommandExit [
+  run: args [
+    self assertArgs: args size: 0.
+    InterruptException new signal
   ]
 ]
 
