@@ -3,7 +3,7 @@ Object subclass: Shell [
   pwd: args [ CommandPwd new run: args ]
   cd: args [ CommandCd new run: args ]
   exit: args [ CommandExit new run: args ]
-  "TODO: echo"
+  echo: args [ CommandEcho new run: args ]
   cat: args [ CommandCat new run: args ]
   "TODO: {{un,}set}env"
 ]
@@ -32,17 +32,6 @@ Object subclass: Command [
   assertArgs: args size: size [
     self assertArgs: args min: size.
     self assertArgs: args max: size.
-  ]
-]
-
-Command subclass: CommandCat [
-  run: args [ | file |
-    args do: [ :path |
-      file := File path: path.
-      (file exists not | file isDirectory)
-        ifTrue: [ ('cat: ', path, ': No such file') displayNl ]
-        ifFalse: [ file contents display ]
-    ]
   ]
 ]
 
@@ -110,5 +99,22 @@ Command subclass: CommandLs [
       (dir, ':') displayNl.
       self listDirectory: (File path: dir) withName: true
     ] separatedBy: [ '' displayNl ]
+  ]
+]
+
+Command subclass: CommandEcho [
+  run: args [
+    (args fold: [:a :b | a, ' ', b ]) displayNl
+  ]
+]
+
+Command subclass: CommandCat [
+  run: args [ | file |
+    args do: [ :path |
+      file := File path: path.
+      (file exists not | file isDirectory)
+        ifTrue: [ ('cat: ', path, ': No such file') displayNl ]
+        ifFalse: [ file contents display ]
+    ]
   ]
 ]
