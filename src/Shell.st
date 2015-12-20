@@ -4,7 +4,7 @@ Object subclass: Shell [
   cd: args [ CommandCd new run: args ]
   exit: args [ CommandExit new run: args ]
   "TODO: echo"
-  "TODO: cat"
+  cat: args [ CommandCat new run: args ]
   "TODO: {{un,}set}env"
 ]
 
@@ -36,7 +36,13 @@ Object subclass: Command [
 ]
 
 Command subclass: CommandCat [
-  run: args [
+  run: args [ | file |
+    args do: [ :path |
+      file := File path: path.
+      (file exists not | file isDirectory)
+        ifTrue: [ ('cat: ', path, ': No such file') displayNl ]
+        ifFalse: [ file contents display ]
+    ]
   ]
 ]
 
