@@ -35,15 +35,23 @@ Object subclass: Command [
   ]
 ]
 
+Command subclass: CommandCat [
+  run: args [
+  ]
+]
+
 Command subclass: CommandCd [
   run: args [
     self assertArgs: args min: 0 max: 1.
     "TODO `cd -`... But maybe `command` instances need to be stored/registered so they can store instance variables. how many commands need that anyway?"
     (args size = 0)
       ifTrue: [ "todo cd no args" ]
-      ifFalse: [
-        (File path: (args at: 1)) exists
+      ifFalse: [ |file|
+        file := File path: (args at: 1).
+        file exists
           ifFalse: [ self error: 'cd: ', (args at: 1), ': No such file or directory' ].
+        file isDirectory
+          ifFalse: [ self error: 'cd :', (args at: 1), ': Not a directory' ].
         Directory working: (args at: 1)
       ]
   ]
