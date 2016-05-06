@@ -104,7 +104,7 @@ Command subclass: CommandLs [
 
 Command subclass: CommandEcho [
   run: args [
-    (args fold: [:a :b | a, ' ', b ]) displayNl
+    (args join: ' ') displayNl
   ]
 ]
 
